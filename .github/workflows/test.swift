@@ -1,0 +1,31 @@
+name: Verify enumerateLines Behavior
+
+on:
+  push:
+  workflow_dispatch:  # 允许手动触发
+
+jobs:
+  test:
+    runs-on: macos-latest  # 使用 macOS 运行器（自带 Swift）
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create Swift test file
+        run: |
+          cat > test.swift << 'EOF'
+          import Foundation
+
+          let text = "第一行\n\n第三行"  // 包含连续换行符 \n\n
+          var lineNumber = 0
+
+          text.enumerateLines { line, _ in
+              lineNumber += 1
+              print("Line \(lineNumber): \"\(line)\"")
+          }
+
+          print("\n枚举完成，共 \(lineNumber) 行")
+          EOF
+
+      - name: Run Swift test
+        run: swift test.swift
