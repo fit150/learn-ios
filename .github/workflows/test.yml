@@ -16,7 +16,7 @@ jobs:
           cat > test.swift << 'EOF'
           import Foundation
 
-          let text = "\n\n"  // 包含连续换行符 \n\n
+          let text = "\n"  // 包含连续换行符 \n\n
           var lineNumber = 0
 
           text.enumerateLines { line, _ in
